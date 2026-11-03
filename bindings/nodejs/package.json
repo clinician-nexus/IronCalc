@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
-    "ava": "^6.0.1"
+    "ava": "^8.3.0"
   },
   "ava": {
     "timeout": "3m"
@@ -40,5 +40,19 @@
     "test": "ava",
     "universal": "napi universal",
     "version": "napi version"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1",
+    "glob": "^14.0.2"
+  },
+  "resolutions": {
+    "minimatch": "^11.0.1",
+    "glob": "^14.0.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^11.0.1",
+      "glob": "^14.0.2"
+    }
   }
 }

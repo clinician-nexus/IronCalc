@@ -8,7 +8,7 @@ use xlsx::base::expressions::pattern_matching::{
 use xlsx::base::expressions::types::CellReferenceIndex;
 
 /// Python wrapper for PatternError
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyPatternError {
     #[pyo3(get)]
@@ -24,7 +24,7 @@ impl From<PatternError> for PyPatternError {
 }
 
 /// Python wrapper for CriteriaValue
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyCriteriaValue {
     inner: CriteriaValue,
@@ -87,7 +87,7 @@ impl From<CriteriaValue> for PyCriteriaValue {
 }
 
 /// Python wrapper for CriteriaPair
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyCriteriaPair {
     #[pyo3(get)]
@@ -135,7 +135,7 @@ impl From<CriteriaPair> for PyCriteriaPair {
 }
 
 /// Python wrapper for LookupValue
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyLookupValue {
     inner: LookupValue,
@@ -196,7 +196,7 @@ impl From<LookupValue> for PyLookupValue {
 }
 
 /// Python wrapper for TableRange
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyTableRange {
     #[pyo3(get)]
@@ -268,7 +268,7 @@ impl From<TableRange> for PyTableRange {
 }
 
 /// Python wrapper for PatternKey with builder patterns
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct PyPatternKey {
     inner: PatternKey,
@@ -787,7 +787,7 @@ impl PySubstitutionRegistry {
     /// Get statistics as a dictionary
     pub fn stats(&self) -> Py<PyDict> {
         let stats = self.inner.stats();
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             let dict = PyDict::new(py);
             dict.set_item("total_lookups", stats.total_lookups())
                 .unwrap();

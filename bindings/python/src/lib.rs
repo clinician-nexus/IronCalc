@@ -64,7 +64,7 @@ impl PyModel {
         value: Py<PyAny>,
         reevaluate: bool,
     ) -> PyResult<()> {
-        let result = Python::with_gil(|py| {
+        let result = Python::attach(|py| {
             // Try to extract various types in order of specificity
             if let Ok(string_val) = value.extract::<String>(py) {
                 if string_val.starts_with('=') || string_val.starts_with('\'') {
@@ -170,7 +170,7 @@ impl PyModel {
         inputs: Vec<(u32, i32, i32, Py<PyAny>)>,
         reevaluate: bool,
     ) -> PyResult<()> {
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             // Process each item in the iterator
             for tuple in inputs.iter() {
                 let sheet: u32 = tuple.0;
@@ -250,7 +250,7 @@ impl PyModel {
         sheet: u32,
         row: i32,
         column: i32,
-    ) -> PyResult<PyObject> {
+    ) -> PyResult<Py<PyAny>> {
         let cell_reference = CellReferenceIndex { sheet, row, column };
         let cell_style = self
             .model
@@ -265,7 +265,7 @@ impl PyModel {
         &mut self,
         py: Python,
         cells: Vec<(u32, i32, i32)>,
-    ) -> PyResult<Vec<PyObject>> {
+    ) -> PyResult<Vec<Py<PyAny>>> {
         let mut results = Vec::new();
         for (sheet, row, column) in cells {
             let result = self.evaluate_cell(py, sheet, row, column)?;
@@ -485,7 +485,7 @@ impl PyModel {
     /// Get substitution registry statistics
     pub fn get_substitution_stats(&self) -> Py<PyDict> {
         let stats = self.model.get_substitution_stats();
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             let dict = PyDict::new(py);
             dict.set_item("total_lookups", stats.total_lookups())
                 .unwrap();
@@ -511,7 +511,7 @@ impl PyModel {
     }
 }
 
-fn calc_result_to_py_any(result: CalcResult, py: Python, cell_style: &Style) -> PyResult<PyObject> {
+fn calc_result_to_py_any(result: CalcResult, py: Python, cell_style: &Style) -> PyResult<Py<PyAny>> {
     match result {
         CalcResult::String(s) => s.into_py_any(py),
         CalcResult::Number(n) => {
