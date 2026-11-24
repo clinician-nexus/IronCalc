@@ -308,11 +308,7 @@ impl Model {
                                 column,
                             }) {
                                 CalcResult::EmptyCell | CalcResult::EmptyArg => result += 1.0,
-                                CalcResult::String(s) => {
-                                    if s.is_empty() {
-                                        result += 1.0
-                                    }
-                                }
+                                CalcResult::String(s) if s.is_empty() => result += 1.0,
                                 _ => {}
                             }
                         }
@@ -476,7 +472,7 @@ impl Model {
         F: FnMut(f64),
     {
         let args_count = args.len();
-        if args_count < 3 || args_count % 2 == 0 {
+        if args_count < 3 || args_count.is_multiple_of(2) {
             return Err(CalcResult::new_args_number_error(cell));
         }
         let arg_0 = self.evaluate_node_in_context(&args[0], cell);

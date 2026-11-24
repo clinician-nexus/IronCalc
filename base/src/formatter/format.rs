@@ -200,14 +200,14 @@ pub fn format_number(value_original: f64, format: &str, locale: &Locale) -> Form
                         if day == 7 {
                             day = 0;
                         }
-                        text = format!("{}{}", text, &locale.dates.day_names_short[day]);
+                        text = format!("{}{}", text, locale.dates.day_names_short[day]);
                     }
                     TextToken::DayName => {
                         let mut day = date.weekday().number_from_monday() as usize;
                         if day == 7 {
                             day = 0;
                         }
-                        text = format!("{}{}", text, &locale.dates.day_names[day]);
+                        text = format!("{}{}", text, locale.dates.day_names[day]);
                     }
                     TextToken::Month => {
                         let month = date.month() as usize;
@@ -219,11 +219,11 @@ pub fn format_number(value_original: f64, format: &str, locale: &Locale) -> Form
                     }
                     TextToken::MonthNameShort => {
                         let month = date.month() as usize;
-                        text = format!("{}{}", text, &locale.dates.months_short[month - 1]);
+                        text = format!("{}{}", text, locale.dates.months_short[month - 1]);
                     }
                     TextToken::MonthName => {
                         let month = date.month() as usize;
-                        text = format!("{}{}", text, &locale.dates.months[month - 1]);
+                        text = format!("{}{}", text, locale.dates.months[month - 1]);
                     }
                     TextToken::MonthLetter => {
                         let month = date.month() as usize;

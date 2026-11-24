@@ -338,7 +338,7 @@ impl Model {
     pub fn new_empty(name: &str, locale_id: &str, timezone: &str) -> Result<Model, String> {
         let tz: Tz = match &timezone.parse() {
             Ok(tz) => *tz,
-            Err(_) => return Err(format!("Invalid timezone: {}", &timezone)),
+            Err(_) => return Err(format!("Invalid timezone: {}", timezone)),
         };
         let locale = match get_locale(locale_id) {
             Ok(l) => l.clone(),

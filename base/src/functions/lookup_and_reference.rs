@@ -141,11 +141,11 @@ impl Model {
                 match match_type {
                     -1 => {
                         // We apply binary search leftmost for value in the range
-                        let is_row_vector;
-                        if left.row == right.row {
-                            is_row_vector = false;
+
+                        let is_row_vector = if left.row == right.row {
+                            false
                         } else if left.column == right.column {
-                            is_row_vector = true;
+                            true
                         } else {
                             // second argument must be a vector
                             return CalcResult::Error {
@@ -153,7 +153,7 @@ impl Model {
                                 origin: cell,
                                 message: "Argument must be a vector".to_string(),
                             };
-                        }
+                        };
                         let n = if is_row_vector {
                             right.row - left.row
                         } else {
@@ -198,11 +198,11 @@ impl Model {
                     }
                     0 => {
                         // We apply linear search
-                        let is_row_vector;
-                        if left.row == right.row {
-                            is_row_vector = false;
+
+                        let is_row_vector = if left.row == right.row {
+                            false
                         } else if left.column == right.column {
-                            is_row_vector = true;
+                            true
                         } else {
                             // second argument must be a vector
                             return CalcResult::Error {
@@ -210,7 +210,7 @@ impl Model {
                                 origin: cell,
                                 message: "Argument must be a vector".to_string(),
                             };
-                        }
+                        };
                         let n = if is_row_vector {
                             right.row - left.row
                         } else {
@@ -253,11 +253,11 @@ impl Model {
                     }
                     _ => {
                         // l is the number of elements less than target in the vector
-                        let is_row_vector;
-                        if left.row == right.row {
-                            is_row_vector = false;
+
+                        let is_row_vector = if left.row == right.row {
+                            false
                         } else if left.column == right.column {
-                            is_row_vector = true;
+                            true
                         } else {
                             // second argument must be a vector
                             return CalcResult::Error {
@@ -265,7 +265,7 @@ impl Model {
                                 origin: cell,
                                 message: "Argument must be a vector".to_string(),
                             };
-                        }
+                        };
                         let l = self.binary_search(&target, &left, &right, is_row_vector);
                         if l == -2 {
                             return CalcResult::Error {
@@ -521,11 +521,10 @@ impl Model {
         let value = self.evaluate_node_in_context(&args[1], cell);
         match value {
             CalcResult::Range { left, right } => {
-                let is_row_vector;
-                if left.row == right.row {
-                    is_row_vector = false;
+                let is_row_vector = if left.row == right.row {
+                    false
                 } else if left.column == right.column {
-                    is_row_vector = true;
+                    true
                 } else {
                     // second argument must be a vector
                     return CalcResult::Error {
@@ -533,7 +532,7 @@ impl Model {
                         origin: cell,
                         message: "Second argument must be a vector".to_string(),
                     };
-                }
+                };
                 let l = self.binary_search(&target, &left, &right, is_row_vector);
                 if l == -2 {
                     return CalcResult::Error {

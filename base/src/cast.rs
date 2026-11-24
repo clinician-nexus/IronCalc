@@ -198,12 +198,7 @@ impl Model {
         cell: CellReferenceIndex,
     ) -> Result<bool, CalcResult> {
         match result {
-            CalcResult::Number(f) => {
-                if f == 0.0 {
-                    return Ok(false);
-                }
-                Ok(true)
-            }
+            CalcResult::Number(f) => Ok(f != 0.0),
             CalcResult::String(s) => {
                 if s.to_lowercase() == *"true" {
                     return Ok(true);

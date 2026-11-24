@@ -171,8 +171,8 @@ pub(crate) fn compare_models(m1: &Model, m2: &Model) -> Result<(), String> {
                         diff.sheet_name,
                         number_to_column(diff.column).unwrap(),
                         diff.row,
-                        &diff.value1,
-                        &diff.value2,
+                        diff.value1,
+                        diff.value2,
                         diff.reason
                     );
                 }
