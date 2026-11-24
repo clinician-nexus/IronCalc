@@ -6,6 +6,9 @@ on:
     pull_request:
         branches: ["main"]
 
+permissions:
+    contents: read
+
 env:
     CARGO_TERM_COLOR: always
 
@@ -18,6 +21,9 @@ jobs:
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+            - name: Install TypeScript
+              run: npm install -g typescript@5.6.2
 
             - name: Build
               run: cargo build --release --verbose

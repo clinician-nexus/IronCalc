@@ -31,7 +31,7 @@ pub struct Opt {
 }
 
 fn main() -> Result<(), String> {
-    let opt = Opt::from_args();
+    let opt = Opt::parse();
     let cldr_dir = opt.cldr_dir;
     let locales_list: Vec<String> = if let Some(locales_path) = opt.locales {
         let contents = fs::read_to_string(locales_path).or(Err("Failed reading file"))?;
